@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Core_WebApp.Models.Department>
+
+@{
+    ViewData["Title"] = "CollectionHelper";
+}
+
+<h1>USing the Custom HTML Tag Helper</h1>
+
+<collection-generator departments="@Model.ToList()"></collection-generator>  

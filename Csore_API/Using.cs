@@ -1,0 +1,10 @@
+﻿global using System.ComponentModel.DataAnnotations;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.SqlServer;
+global using Csore_API.Models;
+global using System.Collections.Generic;
+global using System.Threading.Tasks;
+global using Csore_API.Services;
+global using Csore_API.CustomMiddleware;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

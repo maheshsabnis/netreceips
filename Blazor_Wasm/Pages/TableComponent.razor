@@ -1,0 +1,44 @@
+﻿@page "/tbl"
+@using Blazor_Wasm.Models
+<div class="container">
+    <table class="table table-bordered table-striped">
+       <thead>
+           <tr>
+               <th>EmpNo</th>
+               <th>EmpName</th>
+               <th>DeptName</th>
+               <th>Designation</th>
+               <th>Salary</th>
+           </tr>
+       </thead>
+       <tbody>
+            @foreach (var emp in DataSource)
+            {
+                <tr @onclick="()=>onRowClick(emp.EmpNo)">
+                         <td>@emp.EmpNo</td>
+                         <td>@emp.EmpName</td>
+                         <td>@emp.DeptName</td>
+                         <td>@emp.Designation</td>
+                         <td>@emp.Salary</td>
+                     </tr>
+            }
+                  
+                
+            </tbody>
+   </table>
+</div>
+
+@code {
+    [Parameter] public Employee employee { get; set; }
+    [Parameter] public EventCallback<int> onEmployeeSelected { get; set; }
+    [Parameter] public List<Employee> DataSource { get; set; }
+
+    async void onRowClick(int id)
+    {
+        // EMit an event from the child
+        // WHoever (method) is subscribing to this event
+        // will be invoked by the delegate and the
+        // method MUST have inut parameter as 'int'
+        await onEmployeeSelected.InvokeAsync(id);
+    }
+}

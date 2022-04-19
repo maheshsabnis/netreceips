@@ -1,0 +1,104 @@
+﻿# Blazor WebAssembly Apps
+
+- STandalone Apps those executed in Browser
+- .NET Runtine is Downloaded in the browser
+- balzor.webassembly.js is the JSOM that interacts between Blazor and Browser
+- Microsoft.NetCore.App
+	- .NET Runtie that will be loaded in browser for WASM app execution
+	- Microsoft.AspNetCore.Components.WebAssembly
+		- PAckage that hosts and executes "Components(?)" in Browser
+- Component
+	- AN AUtonomous Object with FOllowing
+		- UI
+			- How the Component will be SHown on Browser
+		- Data
+			- What data will be presented to ENd-User or Acceted fro End-User
+		- Behavior
+			- What EVents are hosted by the Component 
+		- Logic
+			- What logic is provided to the Component
+	- Componet is a 'RazorComponent' file added into the Project
+		- E.g. MyComponent.razor
+			- @page "/mycomponent"
+				- Directive, this will be used to navigate to tyhe Component
+			- MyComponent will be the NAme of the Component and it will be used as CUSTOM HTML Element as follows
+				- MyComponent MyComponent
+					- THis will load the Component Class, with its UI, Data, Behavior and Logic
+	- COmponent
+		- USe this as a SIgnle Functional UI Element e.g. CRUD operations by making HTTP Call
+		- USe this as a Re-Usable Custom Element	
+			- E.g.  Create a ReUsabe Table for showing Employees, Products, Orders, etc.
+				- e.g.
+					- TableComponent TableComponent
+- Standard Components
+	- Input
+		- InputText
+		- InputNumber
+		- Select
+- Adding New Custom Component
+	- Right-Click on Pages Folder and Add -> Razor Components
+	- The Lifecycle Methods(?) of Component
+- DataBinding
+	- Expose the Data Member to UI Elements to Present data to UI
+	- USed to Accept data from UI and Update the Data member
+	- @bind-Value
+		- THis is used for Two-Way Databinding
+		- If Data is changed the UI will change and if UI is change data will change
+		- InputText @bind-Value="EmpNo" InutText
+			- WHen the Data is entered in Text element, the 'change' event will be detected by @bind-Value
+			- @bind-Value will read the latest value entered in Text element and accodingly Update the Data proeprty bind to it
+		- @onclik, a click evet on the button elements those are bound to methd of the component 
+			- input type="button" @onclick="fn()"
+				- fn() is a method of the mcomponent, this will be inoked when button is clicked 
+	- Use the 'EditForm' component
+		-  Map with form tag
+		- EditForm Model="THE-DATA-MODEL".....EditForm
+
+- Blazor apps are used for Compositional UI Application
+	- There could be multiple components loaded on UI ata a time
+	- There could be parent parent-child relationship across components
+	- The Parent Component will pass data to child component
+		- The CHild Component MUST define public property decorated with [Parameter] Attribute class 
+			- [Parameter] will be used provide infor to Blazor that the compoennt is ready to accept data
+	- The Child COmponent will EMit data to parent Component
+		- The Child Component MUST define a property of the type 'EventCallback<T>' which will be decoarated with [Parameter] attribute
+			- EventCallback<T> a type that will be used to emit an EVent from CHild to parent so that data from Child will be passed to parent
+			- T a Payload Type Parameter that represents type of data emitted from Chilt to parent
+- Blazor Navigation across Components
+	- Using URL Parameters
+		- The Page Directive will be
+			- @page "/url/{PARAMETER:DATATYPE}"
+				- Possible make the parameter as 'NULLABLE'
+				- ON REceiver chacek for the Null COndition
+	- Use the 'NavigationManager' class, this is already registered into the Dependency COntainer of the Blazor App 
+		- THis class is used to navigate across Components
+		- Inject this class in the COmponent using @Inject directive
+		- The 'NavigateTo(URL)' method accept URL to Navigate 
+	- USing an Application State
+		- THis is a class that will have a Variable (or a collection) which will be responsible to share state across components
+			- A Variable / A Collection
+				- The State Data to ne shared
+			- An Event
+				- The Event will be raised when the State Data is Updated
+			- A Method
+				- A Method that will be responsible to update the State Data 
+		- THis Application State object MUST be Registered as 'Singleton' objet in DI Container of the Applcation
+		- Inject this Service instance in component that wants to REad/Update data from and to Sppliacation State objects
+		- The Sender component will set the new State and will also mak sure that the state is changed
+		- *** IMP: Make sure that each subscriber component releases the Event in its dispose method (Recommended) 
+		
+- Router
+	- Class for storing a Router Table for the Current Applcation
+	- Loads COmpoent classes and their @page directives (aka URLs) into the ROuter Table
+	- Found
+		- If the Component COrresponding to the Current Requested URL is present or not
+		- If yes then Load, instantiate and Render it
+	- NotFound
+		- Show the Error Message or can also be used for Fallback UI
+	- RouteView
+		- The Container View where all COmponents in NAvigation will be Loaded and Rendered
+	- LayoutComponentBase
+		- The base class for Layout
+			- ComponentBase, the base class for All Components
+		- Body of the type 'RenderFragment'
+			- RenderFragment, the delegate that uses the RenderTreeBuilder class that Manages the REndering aka HTML UI generation

@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Core_WebApp.Models.Department>
+
+@{
+    ViewData["Title"] = "IndexHelper";
+}
+
+<h1>Index With Custom Helper</h1>
+
+<list-generator departments="@Model.ToList()"></list-generator> 

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Core_WebApp.Models.Department>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeptNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                <!--The HTML Helper Method
+                    Parameter 1: The Link Name
+                    Parameter 2: The Action Method that will be invoked with HttpGet Request
+                    Parameter 3: THe Anonymous Type, tha represents a Route Values 
+                            aka parameters to be passed to action method
+                -->
+                @Html.ActionLink("Edit", "Edit", new {  id=item.DeptNo  }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.DeptNo })|
+                @Html.ActionLink("ShowEmployees", "ShowEmployees", new { id=item.DeptNo })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

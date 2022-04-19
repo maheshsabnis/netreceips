@@ -1,0 +1,163 @@
+﻿@page "/security"
+@using Blazor_Wasm.Models
+@inject HttpClient httpClient
+<h3>Token Based Auth Client for ASP.NET Core API</h3>
+<div class="container">
+    <table class="table table-bordered table-striped">
+     <tbody>     
+    <tr>
+       <td>
+           <EditForm Model="registerUser">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            New User
+                        </td>
+                        <td>
+                            <InputText @bind-Value="registerUser.Email" class="form-control"></InputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            <InputText @bind-Value="registerUser.Password" class="form-control"></InputText>
+                        </td>
+                    </tr>
+                 <tr>
+                        <td>
+                            Confirm Password
+                        </td>
+                        <td>
+                            <InputText @bind-Value="registerUser.ConfirmPassword" class="form-control"></InputText>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                           <button class="btn btn-warning"
+                            @onclick="clearNewUser">Clear</button>
+                        </td>
+                        <td>
+                           <button class="btn btn-success"
+                            @onclick="registerNewUser">Register New User</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+            </EditForm>
+       </td>
+       <td>
+            <EditForm Model="loginUser">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            User Name
+                        </td>
+                        <td>
+                            <InputText @bind-Value="loginUser.UserName" class="form-control"></InputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            <InputText @bind-Value="loginUser.Password" class="form-control"></InputText>
+                        </td>
+                    </tr>
+                 
+                     <tr>
+                        <td>
+                           <button class="btn btn-warning"
+                            @onclick="clearLoginUser">Clear Data</button>
+                        </td>
+                        <td>
+                           <button class="btn btn-success"
+                            @onclick="authUser">Login</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+            </EditForm>
+       </td>
+    </tr>
+    </tbody>
+     <tfoot>
+         <tr>
+           <td colspan="2">
+               @Message
+           </td>
+         </tr>
+         <tr>
+             
+             <td>
+                 <button class="btn btn-danger" @onclick="GetData">Get Data</button>
+             </td>
+             <td>
+
+                 <div class="container">
+                     @System.Text.Json.JsonSerializer.Serialize(categories)
+                 </div>
+             </td>
+         </tr>  
+     </tfoot>
+    </table>
+</div>
+
+
+@code {
+    CategoryResponse cat;
+    RegisterUser registerUser;
+    LoginUser loginUser;
+    string Message = "";
+    string token = "";
+    List<CategoryResponse> categories;
+    protected override void OnInitialized()
+    {
+        cat = new CategoryResponse();
+        registerUser = new RegisterUser();
+        loginUser = new LoginUser();
+        categories = new List<CategoryResponse>();
+        base.OnInitialized();
+    }
+
+    void clearNewUser()
+    {
+        registerUser = new RegisterUser();
+    }
+    void clearLoginUser()
+    {
+        loginUser = new LoginUser();
+    }
+    async Task registerNewUser()
+    {
+        var response = await httpClient.PostAsJsonAsync<RegisterUser>
+        ("https://localhost:7013/api/Aut/register", registerUser);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Message = "User is created Sucecssfully";
+        }
+    }
+    async Task authUser()
+    {
+        var response = await httpClient.PostAsJsonAsync<LoginUser>
+        ("https://localhost:7013/api/Aut/login", loginUser);
+
+        var content = response.Content;
+        var resp = await content.ReadFromJsonAsync<ResponseData>();
+
+        token = resp.Message;
+        Message = token;
+    }
+
+    async Task GetData()
+    {
+        // Add Token into the header
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        categories = await httpClient.GetFromJsonAsync<List<CategoryResponse>>("https://localhost:7013/api/Category");
+    }
+}

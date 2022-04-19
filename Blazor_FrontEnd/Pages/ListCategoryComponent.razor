@@ -1,0 +1,54 @@
+﻿@page "/list"
+@using SharedModels.Models
+@inject HttpClient httpClient
+@inject NavigationManager navigate
+<h3>List of Categories</h3> 
+<h3>The New App</h3>
+<div class="container">
+    <button class="btn-link" @onclick="navigateToCreate">Add New Categor</button>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Category Row Id</th>
+                <th>Category Id</th>
+                <th>Category Name</th>
+                <th>Base Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cat in categories)
+           {
+               <tr>
+                   <td>@cat.CategoryRowId</td>
+                   <td>@cat.CategoryId</td>     
+                   <td>@cat.CategoryName</td>
+                   <td>@cat.BasePrice</td>
+                   <td>
+                       <button class="btn btn-warning"
+                        @onclick="()=>navigateToEdit(cat.CategoryRowId)">Edit</button>
+                   </td>
+               </tr>
+           }
+        </tbody>
+    </table>
+
+</div>
+
+@code {
+    List<Category> categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = new List<Category>();
+        categories = await httpClient.GetFromJsonAsync<List<Category>>("https://localhost:7091/api/Category");  
+    }
+
+    void navigateToCreate()
+    {
+        navigate.NavigateTo("/create");  
+    }
+    void navigateToEdit(int id)
+    {
+        navigate.NavigateTo($"/edit/{id}");  
+    }
+}

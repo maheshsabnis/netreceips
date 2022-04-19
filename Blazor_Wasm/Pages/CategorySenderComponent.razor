@@ -1,0 +1,40 @@
+﻿@page "/sender"
+@using Blazor_Wasm.Models
+@inject NavigationManager navigate
+<h3>Category Sender Component</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Category Name</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var cat in categories)
+           {
+               /*Method Binding to Event */ 
+                <tr @onclick="()=>{OnRowClick(cat);}">
+                    <td>@cat.CategoryId</td>
+                    <td>@cat.CategoryName</td>
+                </tr>
+           }
+    </tbody>
+</table>
+
+@code {
+    Category category;
+    Categories categories;
+
+    protected override Task OnInitializedAsync()
+    {
+        category = new Category();
+        categories = new Categories();
+        return base.OnInitializedAsync();
+    }
+
+    void OnRowClick(Category c)
+    {
+        navigate.NavigateTo($"/receiver/{c.CategoryId}");
+    }
+}

@@ -1,0 +1,49 @@
+﻿@page "/receiver/{id:int?}"
+@using Blazor_Wasm.Models
+<h3>Product Receiver Component</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Category Id</th>
+            <th>Product Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prd in filteredProducts)
+       {
+            <tr>
+                <td>@prd.ProductId</td>
+                <td>@prd.CategoryId</td>
+                <td>@prd.ProductName</td>
+            </tr>
+       }
+    </tbody>
+</table>
+
+@code {
+    Product product;
+    Products products;
+    List<Product> filteredProducts;
+    // Define a Parameter variable that matches with the URL Parameter NAme and Type
+    [Parameter] public int? id { get; set; }
+    protected override Task OnInitializedAsync()
+    {
+        product = new Product();
+        products = new Products();
+        filteredProducts = new List<Product>();
+        if (id == null || id == 0)
+        {
+            filteredProducts = products;
+        }
+        else
+        {
+            filteredProducts = products.Where(prd=>prd.CategoryId == id).ToList();
+        }
+
+
+        return base.OnInitializedAsync();
+
+    }
+}
