@@ -2,23 +2,33 @@
 @inject IJSRuntime js
 @inject HttpClient httpClient
 <h3>CSToJSComponent</h3>
-
+<!--Client-Side OnCLick Event-->
+<button onclick="addMethod()">
+        Add
+</button>
+<hr/>
+<button onclick="display()">
+        Display
+</button>
+<button onclick="getData()">
+        Get Data
+</button>
 @code {
-    [JSInvokable("showMessage")]
+    [JSInvokable]
     public static Task ShowMessage()
     {
-        return Task.FromResult<string>("I amk from C#");
+        return Task.FromResult<string>("I am from C#");
     }
     /// <summary>
     /// The 'add' will be a developer frinendly name used  by JS
     /// </summary>
     /// <returns></returns>
-    [JSInvokable("addMethod")]
+    [JSInvokable]
     public static Task Addition(int x,int y)
     {
         return Task.FromResult<int>(x+y);
     }
-    [JSInvokable("getDepartmentsMethod")]
+    [JSInvokable]
     public static async Task<string> GetDepartments()
     {
         HttpClient httpClient = new HttpClient();
