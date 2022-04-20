@@ -1,0 +1,49 @@
+﻿@page "/calljs"
+@inject IJSRuntime js
+<h3>CallJSComponent</h3>
+
+<div class="container">
+    <button @onclick="Display" class="btn btn-primary">Display</button>
+    <hr/>
+    <button @onclick="Add" class="btn btn-success">Add</button>
+    <br/>
+     <span>
+         <strong>
+             Add Result: @addResult
+         </strong>
+     </span>
+    <hr/>
+    <button @onclick="GetData"  class="btn btn-danger">Get Data </button>
+    <br/>
+    <span>
+         <strong>
+             HTTP Result: @httpResult
+         </strong>
+     </span>
+</div>
+
+@code {
+    int addResult;
+    string httpResult = "";
+
+    async Task Display()
+    {
+        // first parameter is the Method name from JavaScript
+        await js.InvokeVoidAsync("display");        
+    }
+
+    async Task Add()
+    {
+        addResult = await js.InvokeAsync<int>("add", 20,30 );        
+    }
+
+    async Task GetData()
+    {
+        /// The InvokeAsync<T> with its TAsk Object wil perform following
+        // 1. Subscribe to the Promise Object retured from JS Method
+        // 2. Resolve the Promise Object
+        // 3. UnPack the Promise Object to Read the Data
+        httpResult = await js.InvokeAsync<string>("getData");        
+    }
+
+}

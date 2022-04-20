@@ -102,3 +102,17 @@
 			- ComponentBase, the base class for All Components
 		- Body of the type 'RenderFragment'
 			- RenderFragment, the delegate that uses the RenderTreeBuilder class that Manages the REndering aka HTML UI generation
+- JavaScript Interoperability
+	- Microsoft.JSInterop
+	- Provides an access of JS to Blazor
+	- Exposes C# Code to JS
+	- IJSRuntime COntract
+		- An interface that is used to integrate the Blzor Object Model with JS Object Model
+		- InvokeAsync<T>("METHOD-NAME-FROM-JS", COMMA-SEPARATED-LIST-OF-PARAMETERS-AS-OBJECT-ARRAY)
+			- The JS Method returns T
+		- InvokeVoidAsync("METHOD-NAME-FROM-JS",COMMA-SEPARATED-LIST-OF-PARAMETERS-AS-OBJECT-ARRAY)
+			- Returns Void, call JS Method that does not return anything
+		- COMMA-SEPARATED-LIST-OF-PARAMETERS-AS-OBJECT-ARRAY
+			- These wille be converted into JSON Object Array
+
+			
