@@ -114,5 +114,20 @@
 			- Returns Void, call JS Method that does not return anything
 		- COMMA-SEPARATED-LIST-OF-PARAMETERS-AS-OBJECT-ARRAY
 			- These wille be converted into JSON Object Array
-
+	- JSInvokableAttibute class	
+		- This is applied on C# method so that it can be invoked by JS Object
+		- [JSInvokable("NAME-OF-JS-OBJECT-METHOD")]
+		- window.MyObject = {
+		   method1:function(){
+		   
+		   }
+		}
+		- window is the object that represents the current active Browser instance
+	- DotNet.invokeMethodAsync("CURRENT-ASSEMBLY-THAT-COTAINS-C#-METHOD", "C#-METHOD-NAME")
+		- This is Async Call
+		- The 'DotNet' object is provided through the blazor.webassembly.js  
+		- e.g.
+			-  DotNet.invokeMethodAsync().then().catch()
+				- .then(), successfull execution
+				- .catch(), error
 			

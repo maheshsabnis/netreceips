@@ -448,3 +448,17 @@ https://www.webnethelper.com/2019/12/using-session-state-in-aspnet-core.html
 	- TO Edit the REcord, Select row from the tabl,e it will be displayed into TExt boxes, edite these values ad click on save button to compete edit
 	- Each table ro MUST have delete button to delete the selected row
 	- Category and Product
+
+# 20-APril-2022
+1. Create a Blazor FullStack Application for managing the CRUD OPerations on Products Table that is Created in MS-SQL Database
+	- Products: ProdictRowID (indentity), ProductID (P.K.), ProductName, CategoryName, Manufacturer, Price
+		- The the above Columns are required 
+	- Users
+		- UserName (Primary Key), Password
+			- Harc-Code USer NAmes and PAsswords
+	- Create a WEB API that will use EF Core DB-First APprch to perform CRUD Operations
+	- Crete a Blazor App that will have components for List, Create, Edit, Delete
+	- Make sure that, the USer loggedin first before accessing the Blazor App
+		- When Blazor App is loaded the Login Compoent MUST be shown
+			- if the Login Fail then show Error Component
+		

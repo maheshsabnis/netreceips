@@ -1,0 +1,28 @@
+﻿@page "/cstojs"
+@inject IJSRuntime js
+@inject HttpClient httpClient
+<h3>CSToJSComponent</h3>
+
+@code {
+    [JSInvokable("showMessage")]
+    public static Task ShowMessage()
+    {
+        return Task.FromResult<string>("I amk from C#");
+    }
+    /// <summary>
+    /// The 'add' will be a developer frinendly name used  by JS
+    /// </summary>
+    /// <returns></returns>
+    [JSInvokable("addMethod")]
+    public static Task Addition(int x,int y)
+    {
+        return Task.FromResult<int>(x+y);
+    }
+    [JSInvokable("getDepartmentsMethod")]
+    public static async Task<string> GetDepartments()
+    {
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetStringAsync("http://localhost:7011/api/departments");
+        return response;
+    }
+}
