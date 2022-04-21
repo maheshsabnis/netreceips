@@ -1443,7 +1443,7 @@ ViewResult View(string viewName, object model);
 			- asp-action: The Call to Action Method in a COntroller, this is used for <a> tag
 			- asp-controller: Make an HTTP Request to Controller
 			- asp-for: Bind to input:text element for Binding public property from Model class with UI to Read/Write data
-			- asp-items: USed to load the collection on UI to generate HTML Dynamically. USed to generate <option> for <select> element
+			- asp-items: USed to load the collection on UI to generate HTML Dynamically. USed to generate option for select element
 
 # CReating ASP.NET Core 5 MVC App
 1. CReate a Model using EF COre	
