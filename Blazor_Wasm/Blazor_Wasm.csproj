@@ -11,4 +11,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />
   </ItemGroup>
 
+  <!--The Itemgroup that Defines all referred Assembly Projects-->
+  <ItemGroup>
+    <ProjectReference Include="..\UtilityUILibrary\UtilityUILibrary.csproj" />
+  </ItemGroup>
+
+  <!--Configure Assembly FOr Lazy Loading-->
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="UtilityUILibrary.dll"></BlazorWebAssemblyLazyLoad>
+	</ItemGroup>
+
+
+
 </Project>

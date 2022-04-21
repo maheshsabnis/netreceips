@@ -1,0 +1,28 @@
+﻿@page "/externaldata"
+<h3>External Data Call Component</h3>
+
+<div class="container">
+    <button class="btn btn-primary"
+     @onclick="GetData">Get Data</button>
+    <hr/>
+    <div class="container">
+        <strong>
+            @data
+        </strong>
+    </div>
+</div>
+
+
+@code {
+    HttpClient httpClient;
+    string data;
+
+    async Task GetData()
+    {
+        httpClient = new HttpClient() ;
+        // Set the Address of the REST API from which data is raeceived
+        httpClient.BaseAddress = new Uri("http://localhost:7011/api/departments");
+        data = await httpClient.GetStringAsync("http://localhost:7011/api/departments");
+
+    }
+}

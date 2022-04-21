@@ -1,4 +1,19 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿<!--AppAssembly: Loads the Assembly and read all types from it
+    1. Read all classes derived from ComponentBase, the  base class for all components
+    2. And Load these classes in Browser inside the Application Assembly that is managed by the 
+    dotnetrutime loaded in browser
+-->
+
+@using System.Reflection
+@*Used to Inject the LazyAssemblyLoader type taht is used for lazy loading*@
+
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@*Inject the LazyAssemblyLoader*@
+@inject LazyAssemblyLoader assemblyLazyLoader
+
+<Router AppAssembly="@typeof(App).Assembly"
+        OnNavigateAsync="OnNavigationAsync"
+        AdditionalAssemblies="lazyAssemblies">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -15,3 +30,28 @@
 <!--The Routing Code Markup usig 'Router' COmponent for Single Page Appication
     SPA
 -->
+
+@code {
+ // the List of Assemblies to loaded lazily
+    private List<Assembly> lazyAssemblies = new List<Assembly>();
+
+    // NavigationContext: The class that represents the CUrrent Route Navigation
+    // Thsi will read Route Information e.g. RouteData, Parameters, Component class
+    // based on The Route path
+    private async Task OnNavigationAsync(NavigationContext context)
+    {
+        // cehck the current Navigation Path in NavLink
+        // curently this will work for externaldata NavLink
+        if (context.Path == "externaldata")
+        {
+            // load the assembly that contains componant with @page directive as externaldata
+            var assemblies = await assemblyLazyLoader.LoadAssembliesAsync
+                (new[] {"UtilityUILibrary.dll"});
+            // add this in the list of Assembly that is bind with the Router
+            lazyAssemblies.AddRange(assemblies);
+
+        }
+    }
+
+
+}

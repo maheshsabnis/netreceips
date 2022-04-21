@@ -131,3 +131,31 @@
 				- .then(), successfull execution
 				- .catch(), error
 			
+- DataAnnotationsValidator
+	- Use this componet to load all validations applied on Model class that is BOund with the EditForm
+- ValidationSummary
+	- USe this component to show error messages 
+- Use EditForm for Binding CLR Model to UI so that it can be Submitted
+	- Model property
+		- USed to Bind the CLR Model instance with UI
+		- ALl Children of EditForm will be bound with Model class instance
+	- OnValidSubmit property
+		- Validate the Model instance  first based on DataAnnotations and then Submit the Form
+- If you want to create Razor components using seperate projets then use the RAzor Library and create components in it and refer it in Main Balzor Project
+	- USe the LAzy Loading for the Referred Assemblies
+		- Download on Demand instaed of earli downloading
+		- BlazorWebAssemblyLazyLoad
+			- USe it in the Project file to specify the LAzy Loaded Assembly
+			- &lt;BlazorWebAssemblyLazyLoad Include="Product_LazyLoad.dll"&gt;&lt;/BlazorWebAssemblyLazyLoad&gt
+	- Microsoft.AspNetCore.Components.WebAssembly.Services
+		- NAmespace for LAzy Load Service
+	- LazyAssemblyLoader
+		- Class that will inform the Router Component to Lazy Load of assembly
+
+```` html
+<Router AppAssembly="@typeof(App).Assembly"
+        OnNavigateAsync="OnNavigationAsync"
+        AdditionalAssemblies="lazyAssemblies">
+````
+	- THe Router  COmponent will use the additional assemblies  based on the method bind with OnNavigateAsync property of the Router component 
+		- NavigationContext: The class tht sets the CUrrent Navigation requested by the Router 

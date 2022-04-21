@@ -1,0 +1,34 @@
+﻿@page "/justtest"
+<h3>JustTestComponent</h3>
+
+<EditForm Model="values" OnValidSubmit="Add">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+<div class="contaier">
+    <div class="form-group">
+        <label>X</label>
+        <InputNumber @bind-Value="values.X"></InputNumber>
+    </div>
+      <div class="form-group">
+        <label>Y</label>
+        <InputNumber @bind-Value="values.Y"></InputNumber>
+    </div>
+      <div class="form-group">
+        <label>Z</label>
+        <InputNumber @bind-Value="values.Z"></InputNumber>
+    </div>
+     <div class="form-group">
+        <label>Z</label>
+        <InputText @bind-Value="values.Name"></InputText>
+    </div>
+     @* <div class="form-group">
+         <button @onclick="Add">Add</button>
+    </div>*@
+     <div class="form-group">
+         <input type="submit" value="Add with Submit"/>
+    </div>
+</div>
+</EditForm>
+@code {
+
+}
