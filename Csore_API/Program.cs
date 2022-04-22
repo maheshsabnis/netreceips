@@ -6,6 +6,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +113,24 @@ app.UseHttpsRedirection();
 
 // Add the CORS Middleware
 app.UseCors("corspolicy");
+// THis will make sure that the Application has a access to wwwroot folder for all
+// static resurces
+app.UseStaticFiles();
+// COfigure the Custom Folder to API so that
+// From the Host its will be accessible to the Application
+// for HTTP Request
+app.UseStaticFiles(new StaticFileOptions()
+{
+    // FileProvider: A Property of the 'IFileProvider' which helps
+    // to Connect to the Physical File Storage on the server
+    // Directory.GetCurrentDirectory(): Provide the Hosting Env. Directory
+    FileProvider = new PhysicalFileProvider
+     (Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
+    // THis path is made avaiable to HttpContext
+    RequestPath = new PathString("/Files")
+});
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 

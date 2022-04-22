@@ -206,9 +206,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedModels", "SharedModel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor_FrontEnd", "Blazor_FrontEnd\Blazor_FrontEnd.csproj", "{46FD18E7-C50F-415D-A83E-C95BBD152BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS_Partial", "CS_Partial\CS_Partial.csproj", "{3B8632CE-6DC7-4ED7-940D-5231A4E88EFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CS_Partial", "CS_Partial\CS_Partial.csproj", "{3B8632CE-6DC7-4ED7-940D-5231A4E88EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityUILibrary", "UtilityUILibrary\UtilityUILibrary.csproj", "{2FA311F7-6C22-4B2D-AAA7-E34BD56E5FC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityUILibrary", "UtilityUILibrary\UtilityUILibrary.csproj", "{2FA311F7-6C22-4B2D-AAA7-E34BD56E5FC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

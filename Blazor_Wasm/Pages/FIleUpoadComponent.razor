@@ -1,0 +1,63 @@
+﻿@page "/fileupload"
+@inject HttpClient client
+<h3>File Upoad Component</h3>
+
+<form @onsubmit="@Upload" enctype="multipart/form-data">
+
+    <InputFile OnChange="@ChoseFile"></InputFile>
+    <br/>
+    <img src="@fileUrl"/>
+    <br/>
+    <input type="submit" value="Submit" />
+</form>
+@code {
+    // The StreamCOntent will be passed in Http Request
+    private StreamContent fileContent;
+    private string fileName;
+    private string fileType;
+    private string fileUrl;
+    private async Task Upload()
+    {
+        // Upload the File
+        // Provide the File MIME TYpe for Blazor WebAserembnly apps
+        // this will help the file STreaming for Http Request when the file is posted 
+        // 'file' The 'key' in HttpPost request 
+        var content = new MultipartFormDataContent();
+        content.Add(content:fileContent, name: "\"file\"", fileName:fileName);
+        var response = await client
+            .PostAsync("https://localhost:7013/api/FileUpload/upload", content);
+    }
+
+    /// <summary>
+    /// InputFileChangeEventArgs: The Class that represents the
+    /// Metadata of the selected file code 
+
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    // InputFileChangeEventArgs: File Name, FIle Sze, Path, etc
+    private async Task ChoseFile(InputFileChangeEventArgs e)
+    {
+        // 15 mb max file swize is allows
+        long FileSize = 1024 * 1024 * 10;
+        // define a HttPContent for STream Type so that the FIle will be
+        // streamed thriugh Http Request
+        // OPen the FIle for REad
+        fileContent = new StreamContent(e.File.OpenReadStream(FileSize));
+        // read the fileName
+        fileName = e.File.Name;
+        // Prepeare the FIle Read Operation
+        // The FIle Must be reda on CLient if before upload the FIle is Processed on CLinet
+        // REad the file based on its size
+        await e.File.OpenReadStream().ReadAsync(new byte[e.File.Size]);
+        // REa the File TYpe
+        // REad File type e.g. bmp, jpg, png
+        fileType = e.File.ContentType;
+        // Create a base64 URL
+        // CReate a file Url so that it will be processed in the browser and will be shown as Preview
+        fileUrl = $"data:{fileType};base64,{Convert.ToBase64String(new byte[e.File.Size])}";
+
+        // infor to the Browser that the State is changed so that the File will be DIsplayed
+        this.StateHasChanged();
+    }
+}
