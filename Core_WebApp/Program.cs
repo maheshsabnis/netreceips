@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,9 +28,13 @@ namespace Core_WebApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.UseKestrel();
+                    //webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                    //webBuilder.UseIISIntegration();
                     // use the Startup class
                     // Instantiate the Startup class and pass ICOnfigration to it
                     webBuilder.UseStartup<Startup>();
+                    
                 });
     }
 }
