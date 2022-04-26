@@ -1470,3 +1470,93 @@ ViewResult View(string viewName, object model);
 6. Add a MVC EMpty Controller and inject the Service in it
 
 
+
+
+# ASP.NET COre Internationalization
+- Views
+- Error Messages
+- Data (Not with DB)
+
+- Creare Resource Files
+	- resx files
+	- Name/Value pair for Strings an thir Transalations
+		- Strings: Values to be Shown on View as Static Text or Error Messages
+		- Transalations: Culture Specific values for Strings
+	- Create Separate FOlder for 'Resources' of name 'Resources'
+		- COntrollers
+			- USed to Pass the Culture Specific Data to Views
+		- Views
+			- USed to define Culture Specific Strings for Static Text and Error Messages (aka Data Annotations)
+			- There will sub-folders mapped with each subfolder in 'Views' folder of the Application 
+		- Models
+			- USed to set Culture Specific Data Annotation on Model class Properties 
+	- Resource File Naming Standard
+		- Model Class File Naming
+			- MoldeClas.[Culture].resx
+				- e.g.
+					- Product.de.resx, Product class with Genrman String/Names
+		- Controller class File Naming
+			- ControllerName.[Culture].resx
+				- ProductController.de.resx
+		- View File
+			- ViewFile.[Culture].resx
+				- Index.de.resx
+	- Add THe Service for Localization in the Dependency COntainer
+```` csharp
+		- builder.Services.AddLocalization(options=>options.ResourcesPath= "Resources");
+````
+	- Let the ASP.NET Core Host uses te Location Services and Read all respurce files from Resurce path aka 'Resources' folder
+	- Add View Localization and the Data Annotation Localization for the Hosting
+```` csharp
+	- builder.Services.AddControllersWithViews()
+		.AddViewLocalization
+		(LanguageViewLocationExpanderFormat.SubFolder)
+		.AddDataAnnotationsLocalization();
+
+````
+
+	- define culture SUpport in Host Services
+```` csharp
+	- builder.Services.Configure<RequestLocalizationOptions>(options => {
+    var supportedCultures = new[] { "en-US", "fr", "de" };
+    options.SetDefaultCulture(supportedCultures[0]) // default Culture en-US
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+});
+````
+
+	- Add the Localization Middleware
+```` csharp
+   - // 4. defining Cultures
+	var supportedCultures = new[] { "en-US", "fr", "de" };
+	// 5. The Middleware settings that will accept the 
+	// Culture from the HttpRequest
+	var localizationOptions = new RequestLocalizationOptions()
+		.SetDefaultCulture(supportedCultures[0])
+		.AddSupportedCultures(supportedCultures)
+		.AddSupportedUICultures(supportedCultures);
+
+	app.UseRequestLocalization(localizationOptions);
+````
+	- Namespaces
+```` csharp
+	@using Microsoft.AspNetCore.Localization
+	@using Microsoft.AspNetCore.Mvc.Localization
+````
+
+	- Contracts
+```` charp
+ @inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> locOptions
+````
+	- IViewLocalizer: Used to set the Localization on Views based on Resources
+	- RequestLocalizationOptions: Load and Set the CUlture for rendering the view based on selected Culture 
+	- IRequestCultureFeature
+		- Detect the Current Culture from the Browser Originated HTTP Request
+- Setting Culture on View
+	- @Localizer["Request the culture provider:"]
+		- This is set using the 'IViewLocalizer'
+			- This will read the matching resource file for the Current View under Resources/Views/Sub-Foder/VeiwFileName.[selected-culture].resx
+	- IStringLocalizer<T>
+		- The Contractthat will be ijected into the Construtor of the Controller class to provde Culture specific Localization for the View returned from Actin Method and also data to be shown on Views
+		- THis will also help for DataAnnotations for VAlidations	
